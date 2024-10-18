@@ -1,0 +1,261 @@
+# Open WebUI Helm
+
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.versionBadge" . }}{{ template "chart.typeBadge" . }}{{ template "chart.appVersionBadge" . }}
+
+{{ template "chart.description" . }}
+
+![Open WebUI Demo](https://github.com/ollama-webui/ollama-webui/blob/main/demo.gif?raw=true)
+
+## TL;DR
+
+```sh
+helm repo add braveokafor https://braveokafor.github.io/helm-charts/
+helm install ollama braveokafor/open-webui
+```
+
+#### OR: 
+
+```sh
+helm repo add braveokafor https://charts.braveokafor.com
+helm install ollama braveokafor/open-webui
+```
+
+## Introduction
+
+Deploy [Open WebUI](https://github.com/ollama-webui/ollama-webui) on Kubernetes easily with this Helm chart. 
+
+It enables you to run a ChatGPT-style web UI client, with a variety of open-source large language models available at [ollama.ai/library](ollama.ai/library).  
+
+Alternatively, you can also also run against the OpenAI API or LiteLLM.
+
+{{ template "chart.sourcesSection" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+
+## Installing the Chart
+
+To install the chart with the release name `ollama`:
+
+```sh
+helm install ollama braveokafor/open-webui
+```
+
+The command deploys Ollama on the Kubernetes cluster in the default configuration. 
+
+The [Parameters](#parameters) section lists the parameters that can be configured during installation.
+
+## Uninstalling the Chart
+
+To uninstall/delete the `ollama` deployment:
+
+```sh
+helm delete ollama
+```
+
+The command removes all the Kubernetes components associated with the chart and deletes the release.
+
+## Configuration and installation details
+
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+
+```console
+helm install ollama \
+  --set ollama.gpu.enabled=true \
+    braveokafor/open-webui
+```
+The above command enables GPU support for Ollama.
+
+Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example:
+
+```console
+helm install ollama -f values.yaml braveokafor/open-webui
+```
+
+Example fully configured `values.yaml` to setup with Ollama:
+
+```yaml
+# values.yaml
+ollama:
+  enabled: true
+  ollama:
+    gpu:
+      enabled: true
+    models:
+      - gemma
+      - mistral
+  nodeSelector:
+    cloud.google.com/gke-accelerator: "nvidia-tesla-t4"
+resources:
+  requests:
+    memory: 2048Mi
+    cpu: 1000m
+ingress:
+  enabled: true
+  hostname: ollama.braveokafor.com
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: ollama
+    ingressClassName: gce
+  tls:
+    enabled: true
+```
+
+Example fully configured `values.yaml` to setup with OpenAI:
+
+```yaml
+# values.yaml
+openai:
+  enabled: true
+  apiKey: "DX0mvZ6hQvUpM3FSL9qj58KTsbFwPYNsvgT0ztAiYA2q-eWsrxoQ"
+ollama:
+  enabled: false
+resources:
+  requests:
+    memory: 2048Mi
+    cpu: 1000m
+ingress:
+  enabled: true
+  hostname: ollama.braveokafor.com
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: ollama
+    ingressClassName: gce
+  tls:
+    enabled: true
+```
+
+Example fully configured `values.yaml` to setup with LiteLLM:
+
+```yaml
+# values.yaml
+litellm:
+  enabled: true
+  config:
+    model_list:
+      - model_name: gpt-3.5
+        litellm_params:
+          model: gpt-3.5-turbo
+          api_base: https://api.openai.com/v1
+          api_key: "Ec2CWgmxnJRhdMSIlkwZbrFpxDJnuzSUHnVVDpUUaM62U4NavRIL"
+ollama:
+  enabled: false
+resources:
+  requests:
+    memory: 2048Mi
+    cpu: 1000m
+ingress:
+  enabled: true
+  hostname: ollama.braveokafor.com
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: ollama
+    ingressClassName: gce
+  tls:
+    enabled: true
+```
+
+## Overrides
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if or (eq .Key "nameOverride") (eq .Key "fullnameOverride") }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+## Ollama parameters
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "ollama" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+## OpenAI parameters
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "openai" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+## LiteLLM parameters
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "litellm" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+## Image parameters
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "image" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+## General parameters
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if not (or  (hasPrefix "ollama" .Key) (hasPrefix "image" .Key) (hasPrefix "ingress" .Key) (hasPrefix "service" .Key) (hasPrefix "persistence" .Key) (hasPrefix "serviceAccount" .Key) (hasPrefix "openai" .Key) (hasPrefix "litellm" .Key) (or (eq .Key "nameOverride") (eq .Key "fullnameOverride"))) }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+## Service parameters
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "service" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+## Persistence parameters
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "persistence" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+## Service account parameters
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "serviceAccount" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+## Ingress parameters
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "ingress" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs](https://github.com/norwoodj/helm-docs)
