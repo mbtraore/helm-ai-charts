@@ -5,7 +5,7 @@ entries:
       licenses: MIT
     apiVersion: v2
     appVersion: 0.1.27
-    created: "2024-10-18T16:05:18.48855+02:00"
+    created: "2024-10-18T16:11:46.434717+02:00"
     description: Chart to deploy Ollama, a Client for running Large Language Models
       (LLM).
     digest: 5f62af1308f2f20852fb9452542bf5452396d21aeb4d4b3a7744525671abdca0
@@ -27,12 +27,38 @@ entries:
     urls:
     - https://mbtraore.github.io/ai-helm-charts/ollama-0.1.0.tgz
     version: 0.1.0
+  - annotations:
+      licenses: MIT
+    apiVersion: v2
+    appVersion: 0.1.27
+    created: "2024-10-18T16:11:46.439502+02:00"
+    description: Chart to deploy Ollama, a Client for running Large Language Models
+      (LLM).
+    digest: 5f62af1308f2f20852fb9452542bf5452396d21aeb4d4b3a7744525671abdca0
+    home: https://ollama.ai/
+    icon: https://ollama.ai/public/ollama.png
+    keywords:
+    - ai
+    - ollama
+    - llm
+    - llama
+    maintainers:
+    - email: brave@braveokafor.com
+      name: braveokafor
+      url: https://braveokafor.com/
+    name: ollama
+    sources:
+    - https://github.com/jmorganca/ollama/
+    - https://github.com/braveokafor/ollama-helm/
+    urls:
+    - https://mbtraore.github.io/ai-helm-charts/charts/ollama-0.1.0.tgz
+    version: 0.1.0
   open-webui:
   - annotations:
       licenses: MIT
     apiVersion: v2
     appVersion: 0.1.107
-    created: "2024-10-18T16:05:18.493596+02:00"
+    created: "2024-10-18T16:11:46.438601+02:00"
     dependencies:
     - condition: ollama.enabled
       name: ollama
@@ -62,4 +88,38 @@ entries:
     urls:
     - https://mbtraore.github.io/ai-helm-charts/open-webui-0.1.2.tgz
     version: 0.1.2
-generated: "2024-10-18T16:05:18.487362+02:00"
+  - annotations:
+      licenses: MIT
+    apiVersion: v2
+    appVersion: 0.1.107
+    created: "2024-10-18T16:11:46.443026+02:00"
+    dependencies:
+    - condition: ollama.enabled
+      name: ollama
+      repository: https://charts.braveokafor.com
+      tags:
+      - ollama
+      version: 0.1.x
+    description: "Chart to deploy Open WebUI, a ChatGPT-Style Web UI Client for Ollama
+      \U0001F999."
+    digest: 66fcf0bfced4a231634c8a8a93b5e80cae517f6069ee20ad8f7601dae0bf7356
+    home: https://openwebui.com/
+    icon: https://openwebui.com/favicon.png/
+    keywords:
+    - ai
+    - ollama
+    - llm
+    - llama
+    maintainers:
+    - email: brave@braveokafor.com
+      name: braveokafor
+      url: https://braveokafor.com/
+    name: open-webui
+    sources:
+    - https://github.com/jmorganca/ollama/
+    - https://github.com/open-webui/open-webui
+    - https://github.com/braveokafor/open-webui-helm/
+    urls:
+    - https://mbtraore.github.io/ai-helm-charts/charts/open-webui-0.1.2.tgz
+    version: 0.1.2
+generated: "2024-10-18T16:11:46.433212+02:00"
