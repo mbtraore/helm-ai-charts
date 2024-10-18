@@ -5,7 +5,7 @@ entries:
       licenses: MIT
     apiVersion: v2
     appVersion: 0.1.27
-    created: "2024-10-18T12:18:26.715154+02:00"
+    created: "2024-10-18T12:22:05.326988+02:00"
     description: Chart to deploy Ollama, a Client for running Large Language Models
       (LLM).
     digest: 5f62af1308f2f20852fb9452542bf5452396d21aeb4d4b3a7744525671abdca0
@@ -32,7 +32,7 @@ entries:
       licenses: MIT
     apiVersion: v2
     appVersion: 0.1.107
-    created: "2024-10-18T12:18:26.718712+02:00"
+    created: "2024-10-18T12:22:05.332526+02:00"
     dependencies:
     - condition: ollama.enabled
       name: ollama
@@ -62,4 +62,4 @@ entries:
     urls:
     - https://mbtraore.github.io/ai-helm-charts/open-webui-0.1.2.tgz
     version: 0.1.2
-generated: "2024-10-18T12:18:26.711541+02:00"
+generated: "2024-10-18T12:22:05.325614+02:00"
